@@ -4,27 +4,29 @@ public class PlayerIKControl : MonoBehaviour
 {
     public Animator animator;
 
-    public bool useIK = false;        // activar/desactivar IK
-    public Transform lookTarget;      // punto de mirada
-    public Transform rightHandTarget; // punto donde apunta la mano
+    public bool useIK = false;
+    public Transform lookTarget;
+    public Transform rightHandTarget;
 
     void OnAnimatorIK(int layerIndex)
     {
+        Debug.Log("IK RUNNING");
+
         if (!useIK || animator == null)
             return;
 
-        // ----- IK de mirada -----
+        // Mirada
         if (lookTarget != null)
         {
-            animator.SetLookAtWeight(1);
+            animator.SetLookAtWeight(1f, 1f, 1f, 1f, 1f);
             animator.SetLookAtPosition(lookTarget.position);
         }
 
-        // ----- IK de mano derecha -----
+        // Mano derecha
         if (rightHandTarget != null)
         {
-            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-            animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
+            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
+            animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1f);
 
             animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandTarget.position);
             animator.SetIKRotation(AvatarIKGoal.RightHand, rightHandTarget.rotation);
